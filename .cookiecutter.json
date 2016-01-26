@@ -1,10 +1,10 @@
 {
+    "library_name": "topology_lib_ping",
     "author": "Hewlett Packard Enterprise Development LP",
     "email": "hpe-networking@lists.hp.com",
     "repo_url": "https://github.com/HPENetworking/topology_lib_ping",
     "doc_url": "https://github.com/HPENetworking/topology_lib_ping/tree/master/doc",
     "project_name": "ping Communication Library for Topology",
-    "library_name": "topology_lib_ping",
     "short_description": "Linux ping command Communication Library for the Topology Network Framework.",
     "year": "2016",
     "version": "0.1.0"
