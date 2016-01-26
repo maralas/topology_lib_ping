@@ -36,7 +36,7 @@ PING_RE = (
 )
 
 
-def ping(enode, count, destination):
+def ping(enode, count, destination, interval=None, shell=None):
     """
     Perform a ping and parse the result.
 
@@ -44,6 +44,9 @@ def ping(enode, count, destination):
     :type enode: topology.platforms.base.BaseNode
     :param int count: Number of packets to send.
     :param str destination: The destination host.
+    :param float interval: The wait interval in seconds between each packet.
+    :param str shell: Shell name to execute commands. If ``None``, use the
+     Engine Node default shell.
     :rtype: dict
     :return: The parsed result of the ping command in a dictionary of the form:
 
@@ -65,10 +68,13 @@ def ping(enode, count, destination):
     if addr.version == 6:
         cmd = 'ping6'
 
-    ping_raw = enode(
-        '{} -c {} {}'.format(cmd, count, destination),
-        shell='bash'
-    )
+    cmd = [cmd, '-c', str(count), destination]
+    if interval is not None:
+        assert interval > 0
+        cmd.append('-i')
+        cmd.append(str(interval))
+
+    ping_raw = enode(' '.join(cmd), shell=shell)
     assert ping_raw
 
     for line in ping_raw.splitlines():
