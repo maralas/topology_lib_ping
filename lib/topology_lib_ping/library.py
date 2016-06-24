@@ -36,7 +36,7 @@ PING_RE = (
 )
 
 
-def ping(enode, count, destination, interval=None, shell=None):
+def ping(enode, count, destination, interval=None, quiet=False, shell=None):
     """
     Perform a ping and parse the result.
 
@@ -73,6 +73,8 @@ def ping(enode, count, destination, interval=None, shell=None):
         assert interval > 0
         cmd.append('-i')
         cmd.append(str(interval))
+    if quiet:
+        cmd.append('-q')
 
     ping_raw = enode(' '.join(cmd), shell=shell)
     assert ping_raw
