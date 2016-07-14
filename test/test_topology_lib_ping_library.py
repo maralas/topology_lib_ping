@@ -20,14 +20,11 @@ Test suite for Topology ping Communication Library.
 """
 
 from __future__ import unicode_literals
-
 from subprocess import check_output
 from distutils.spawn import find_executable
-
 from deepdiff import DeepDiff
 from pytest import mark  # noqa
-
-from topology_lib_ping.library import ping_parse, ping
+from topology_lib_ping.library import ping_parse, ping, ping_background
 
 
 def _enode(cmd, shell=None):
@@ -110,3 +107,14 @@ def test_ping6():
 
     ddiff = DeepDiff(result, expected)
     assert not ddiff
+
+
+@mark.skipif(
+    find_executable('ping_background') is None,
+    reason='ping_background command unavailable'
+)
+def test_ping_background():
+    result = ping_background(_enode, 10, '127.0.0.1',
+                             filename="/tmp/ping.txt", interval=0.5)
+
+    assert int(result)
